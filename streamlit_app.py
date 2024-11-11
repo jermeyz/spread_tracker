@@ -23,7 +23,17 @@ if ticker:
         # Create Altair line chart
         line_chart_left = (
             alt.Chart(stock_data)
-            .mark_line()
+            .mark_rule().encode(
+                x='Date:T',
+                y='Low:Q',
+                y2='High:Q'
+            ) + alt.Chart(stock_data).mark_bar().encode(
+                x='Date:T',
+                y='Open:Q',
+                y2='Close:Q',
+                color=alt.condition("datum.Open <= datum.Close", alt.value("green"), alt.value("red")),
+                tooltip=['Date:T', 'Open:Q', 'High:Q', 'Low:Q', 'Close:Q']
+            )
             .encode(
                 x='Date:T',
                 y=alt.Y('Close:Q', title='Closing Price', axis=alt.Axis(titleColor='blue', orient='left')),
@@ -39,7 +49,17 @@ if ticker:
         # Create a duplicate line chart with y-axis on the right
         line_chart_right = (
             alt.Chart(stock_data)
-            .mark_line()
+            .mark_rule().encode(
+                x='Date:T',
+                y='Low:Q',
+                y2='High:Q'
+            ) + alt.Chart(stock_data).mark_bar().encode(
+                x='Date:T',
+                y='Open:Q',
+                y2='Close:Q',
+                color=alt.condition("datum.Open <= datum.Close", alt.value("green"), alt.value("red")),
+                tooltip=['Date:T', 'Open:Q', 'High:Q', 'Low:Q', 'Close:Q']
+            )
             .encode(
                 x='Date:T',
                 y=alt.Y('Close:Q', title='Closing Price', axis=alt.Axis(titleColor='blue', orient='right')),
